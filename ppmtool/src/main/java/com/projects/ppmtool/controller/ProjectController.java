@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projects.ppmtool.entity.Project;
+import com.projects.ppmtool.service.MapValidationErrorService;
 import com.projects.ppmtool.service.ProjectService;
 
 @RestController
@@ -25,19 +26,17 @@ public class ProjectController {
 
 	@Autowired
 	private ProjectService projectService;
-	
+
+	@Autowired
+	private MapValidationErrorService mapValidationErrorService;
+
 	@PostMapping("")
-	public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result){
-		if(result.hasErrors()) {
-			
-			Map<String,String> errorMap = new HashMap<>();
-			for(FieldError error: result.getFieldErrors()) {
-				errorMap.put(error.getField(), error.getDefaultMessage());
-			}
-			return new ResponseEntity<Map<String,String>>(errorMap,HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
+		ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationError(result);
+		if(errorMap!=null){
+			return errorMap;
 		}
-		
 		projectService.saveOrUpdateProject(project);
-		return new ResponseEntity<Project>(project,HttpStatus.CREATED);
+		return new ResponseEntity<Project>(project, HttpStatus.CREATED);
 	}
 }
