@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 class ProjectItem extends Component {
     render() {
@@ -25,7 +25,7 @@ class ProjectItem extends Component {
                                         <i className="fa fa-edit pr-1"> Update Project Info</i>
                                     </li>
                                 </a>
-                                <a href="">
+                                <a href="#">
                                     <li className="list-group-item delete">
                                         <i className="fa fa-minus-circle pr-1"> Delete Project</i>
                                     </li>
@@ -34,9 +34,9 @@ class ProjectItem extends Component {
                         </div>
                     </div>
                 </div>
-            </ div>
+            </div>
         )
     }
 }
 
-export default ProjectItem
+export default ProjectItem;
